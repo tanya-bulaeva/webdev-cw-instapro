@@ -75,15 +75,14 @@ export function uploadImage({ file }) {
 }
 
 
-function postFetch ({token}){
+export function postFetch ({token, description, imageUrl}){
   return fetch(postsHost, {
     method: "POST",
     body: JSON.stringify({
-      name: postFetch.user.name,
-      "description": post.description,
-      "imageUrl": post.imageUrl,
+      description,
+      imageUrl,
+      token,
     }),
-    token,
     headers: {
       Authorization: token,
     },

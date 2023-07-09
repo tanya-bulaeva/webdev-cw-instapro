@@ -196,3 +196,37 @@
   width: 100%;
   text-align: center;
 }
+.add-post-form{
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  height: 500px;
+  gap: 30px;
+  width: 100%;
+
+ 
+}
+.add-image-button{
+  font-family: inherit;
+  display: block;
+  padding: 10px 13px 13px;
+  font-size: 18px;
+  line-height: 22px;
+  border-radius: 5px;
+  background-color: #edecff;
+  color: #565eef;
+  border: none;
+  width: 100%;
+}
+.add-button{
+width: 100%;
+}
+.add-image-description{
+  width: 100%;
+  background-color: #e8e8e8;
+  border: none;
+  resize: none;
+  border-radius: 5px;
+padding: 10px;
+}
