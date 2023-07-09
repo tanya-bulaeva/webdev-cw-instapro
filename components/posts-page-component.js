@@ -1,16 +1,92 @@
 import { USER_POSTS_PAGE } from "../routes.js";
 import { renderHeaderComponent } from "./header-component.js";
-import { posts, goToPage } from "../index.js";
+//import { posts, goToPage } from "../index.js";
+import { goToPage } from "../index.js";
+/*const posts = [
+    {
+      "id": "642bf333b959b2a4679f2e69",
+      "imageUrl": "https://storage.yandexcloud.net/skypro-webdev-homework-bucket/1680601903167-%25C3%2590%25C2%25A1%25C3%2590%25C2%25BD%25C3%2590%25C2%25B8%25C3%2590%25C2%25BC%25C3%2590%25C2%25BE%25C3%2590%25C2%25BA%2520%25C3%2591%25C2%258D%25C3%2590%25C2%25BA%25C3%2591%25C2%2580%25C3%2590%25C2%25B0%25C3%2590%25C2%25BD%25C3%2590%25C2%25B0%25202023-03-31%2520%25C3%2590%25C2%25B2%252012.45.42.png",
+      "createdAt": "2023-04-04T09:51:47.187Z",
+      "description": "Это я",
+      "user": {
+        "id": "642bf323b959b2a4679f2e68",
+        "name": "Глеб Фокин",
+        "login": "glebkaf777",
+        "imageUrl": "https://storage.yandexcloud.net/skypro-webdev-homework-bucket/1680601877737-%25C3%2590%25C2%25A1%25C3%2590%25C2%25BD%25C3%2590%25C2%25B8%25C3%2590%25C2%25BC%25C3%2590%25C2%25BE%25C3%2590%25C2%25BA%2520%25C3%2591%25C2%258D%25C3%2590%25C2%25BA%25C3%2591%25C2%2580%25C3%2590%25C2%25B0%25C3%2590%25C2%25BD%25C3%2590%25C2%25B0%25202023-03-31%2520%25C3%2590%25C2%25B2%252012.58.33.png"
+      },
+      "likes": [
+        { "id": "642bf323b959b2a4679f2e68", "name": "Глеб Фокин" },
+        { "id": "64226edb0cdb1574f162d950", "name": "Глеб Админ" },
+        { "id": "64255dabca1ce2a815a327d7", "name": "Глеб" }
+      ],
+      "isLiked": false
+    },
+    {
+      "id": "642bf2f4b959b2a4679f2e67",
+      "imageUrl": "https://storage.yandexcloud.net/skypro-webdev-homework-bucket/1680601839236-%25C3%2590%25C2%25A1%25C3%2590%25C2%25BD%25C3%2590%25C2%25B8%25C3%2590%25C2%25BC%25C3%2590%25C2%25BE%25C3%2590%25C2%25BA%2520%25C3%2591%25C2%258D%25C3%2590%25C2%25BA%25C3%2591%25C2%2580%25C3%2590%25C2%25B0%25C3%2590%25C2%25BD%25C3%2590%25C2%25B0%25202023-03-31%2520%25C3%2590%25C2%25B2%252012.51.20.png",
+      "createdAt": "2023-04-04T09:50:44.832Z",
+      "description": "Вторая фотка",
+      "user": {
+        "id": "64226edb0cdb1574f162d950",
+        "name": "Глеб Админ",
+        "login": "admin",
+        "imageUrl": "https://storage.yandexcloud.net/skypro-webdev-homework-bucket/1680601502867-%25C3%2590%25C2%25A1%25C3%2590%25C2%25BD%25C3%2590%25C2%25B8%25C3%2590%25C2%25BC%25C3%2590%25C2%25BE%25C3%2590%25C2%25BA%2520%25C3%2591%25C2%258D%25C3%2590%25C2%25BA%25C3%2591%25C2%2580%25C3%2590%25C2%25B0%25C3%2590%25C2%25BD%25C3%2590%25C2%25B0%25202023-04-04%2520%25C3%2590%25C2%25B2%252014.04.29.png"
+      },
+      "likes": [
+        { "id": "642bf323b959b2a4679f2e68", "name": "Глеб Фокин" },
+        { "id": "64226edb0cdb1574f162d950", "name": "Глеб Админ" }
+      ],
+      "isLiked": false
+    }
 
+
+  ]*/
 export function renderPostsPageComponent({ appEl }) {
   // TODO: реализовать рендер постов из api
   console.log("Актуальный список постов:", posts);
+ const render = () => {
+  const appHtml =  posts.map((post, index) => {
+    return `
+              <div class="page-container">
+                <div class="header-container"></div>
+                <ul class="posts">
+                  <li class="post">
+                    <div class="post-header" data-user-id="642d00329b190443860c2f31">
+                        <img src="${post.user.imageUrl}" class="post-header__user-image">
+                        <p class="post-header__user-name">${post.user.name}</p>
+                    </div>
+                    <div class="post-image-container">
+                      <img class="post-image" src="${post.imageUrl}">
+                    </div>
+                    <div class="post-likes">
+                      <button data-index = '${index}' data-post-id="${post.likes}" class="like-button">
+                        <img src="./assets/images/like-active.svg">
+                      </button>
+                      <p class="post-likes-text">
+                        Нравится: <strong>2</strong>
+                      </p>
+                    </div>
+                    <p class="post-text">
+                      <span class="user-name">${post.user.name}</span>
+                      ${post.description}
+                    </p>
+                    <p class="post-date">
+                      19 минут назад
+                    </p>
+                  </li>
+                  
+                </ul>
+              </div>`;
+  }).join('');
+  appEl.innerHTML = appHtml;
+}
+  render();
 
   /**
    * TODO: чтобы отформатировать дату создания поста в виде "19 минут назад"
    * можно использовать https://date-fns.org/v2.29.3/docs/formatDistanceToNow
    */
-  const appHtml = `
+ /* const appHtml = `
               <div class="page-container">
                 <div class="header-container"></div>
                 <ul class="posts">
@@ -94,7 +170,7 @@ export function renderPostsPageComponent({ appEl }) {
               </div>`;
 
   appEl.innerHTML = appHtml;
-
+   */
   renderHeaderComponent({
     element: document.querySelector(".header-container"),
   });

@@ -1,8 +1,13 @@
 // Замени на свой, чтобы получить независимый от других набор данных.
 // "боевая" версия инстапро лежит в ключе prod
-const personalKey = "prod";
+//const personalKey = "prod";
+//const baseHost = "https://webdev-hw-api.vercel.app";
+//
+
+const personalKey = ":tanya-bulaeva";
 const baseHost = "https://webdev-hw-api.vercel.app";
 const postsHost = `${baseHost}/api/v1/${personalKey}/instapro`;
+//https://wedev-api.sky.pro/api/v1/:tanya-bulaeva/instapro
 
 export function getPosts({ token }) {
   return fetch(postsHost, {
@@ -19,7 +24,7 @@ export function getPosts({ token }) {
       return response.json();
     })
     .then((data) => {
-      return data.posts;
+          return data.posts;
     });
 }
 
@@ -67,4 +72,46 @@ export function uploadImage({ file }) {
   }).then((response) => {
     return response.json();
   });
+}
+
+
+function postFetch ({token}){
+  return fetch(postsHost, {
+    method: "POST",
+    body: JSON.stringify({
+      name: postFetch.user.name,
+      "description": post.description,
+      "imageUrl": post.imageUrl,
+    }),
+    token,
+    headers: {
+      Authorization: token,
+    },
+}).then((response) => {
+  if (response.status === 201){
+    return response.json();
+    };
+
+    if (response.status === 500){
+      throw new Error ("Сервер сломался");
+    };
+
+    if  (response.status === 400){
+      throw new Error  ("Плохой запрос")
+    }; 
+  }).then ((responseData) => {
+    return getPosts();
+  }).catch((error) => {
+    if (error.message === "Сервер сломался" ){
+      alert ("Сервер сломался, попробуйте позже");
+      return;
+      };
+      if (error.message === "Плохой запрос" ){
+      alert ("Имя и комментарий должны быть не короче 3 символов");
+      return;
+      }; 
+      alert ("Кажется что-то пошло не так, попробуйте позже");
+      console.log (error)
+    
+  })
 }
