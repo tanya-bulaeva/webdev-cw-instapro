@@ -2,6 +2,8 @@ import { USER_POSTS_PAGE } from "../routes.js";
 import { renderHeaderComponent } from "./header-component.js";
 //import { posts, goToPage } from "../index.js";
 import { goToPage } from "../index.js";
+
+
 const posts = [
     {
       "id": "642bf333b959b2a4679f2e69",
