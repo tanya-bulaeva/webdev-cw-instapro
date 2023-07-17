@@ -47,19 +47,15 @@ let imageUrl = "";
         alert("Не выбрана фотография");
         return;
       } 
- if (!imageDescription){
-  alert ('Вы не добавили описание');
-  return
-}
-
-
-
 onAddPostClick({
-        description: "Описание картинки",
-        imageUrl: "https://image.png",
+        description: imageDescription.value
+        .replaceAll("&", "&amp;")
+        .replaceAll("<", "&lt;")
+        .replaceAll(">", "&gt;")
+        .replaceAll('"', "&quot;"),
+        imageUrl,
       });
 
-   postFetch();
     });
 
   };

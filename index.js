@@ -1,4 +1,4 @@
-import { getPosts, postFetch } from "./api.js";
+import { getPosts, postFetch, userPage } from "./api.js";
 import { renderAddPostPageComponent } from "./components/add-post-page-component.js";
 import { renderAuthPageComponent } from "./components/auth-page-component.js";
 import {
@@ -20,7 +20,7 @@ export let user = getUserFromLocalStorage();
 export let page = null;
 export let posts = [];
 
-const getToken = () => {
+export const getToken = () => {
   const token = user ? `Bearer ${user.token}` : undefined;
   return token;
 };
@@ -110,7 +110,7 @@ const renderApp = () => {
     return renderAddPostPageComponent({
       appEl,
       onAddPostClick({ description, imageUrl }) {
-        // TODO: реализовать добавление поста в API
+        // TODO: реализовать добавление поста в API+
         postFetch({description, imageUrl, token: getToken()})
         console.log("Добавляю пост...", { description, imageUrl });
         goToPage(POSTS_PAGE);
@@ -125,9 +125,13 @@ const renderApp = () => {
   }
 
   if (page === USER_POSTS_PAGE) {
+
     // TODO: реализовать страницу фотографию пользвателя
-    appEl.innerHTML = "Здесь будет страница фотографий пользователя";
+  appEl.innerHTML = "Здесь будет страница фотографий пользователя";
     return;
+
+
+
   }
 };
 

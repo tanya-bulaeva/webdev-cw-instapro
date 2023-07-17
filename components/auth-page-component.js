@@ -98,6 +98,7 @@ export function renderAuthPageComponent({ appEl, setUser }) {
         })
           .then((user) => {
             setUser(user.user);
+            console.log (user.user)
           })
           .catch((error) => {
             console.warn(error);
@@ -127,9 +128,15 @@ export function renderAuthPageComponent({ appEl, setUser }) {
         }
 
         registerUser({
-          login: login,
+          login: login.replaceAll("&", "&amp;")
+          .replaceAll("<", "&lt;")
+          .replaceAll(">", "&gt;")
+          .replaceAll('"', "&quot;"),
           password: password,
-          name: name,
+          name: name.replaceAll("&", "&amp;")
+          .replaceAll("<", "&lt;")
+          .replaceAll(">", "&gt;")
+          .replaceAll('"', "&quot;"),
           imageUrl,
         })
           .then((user) => {

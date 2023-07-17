@@ -81,7 +81,6 @@ export function postFetch ({token, description, imageUrl}){
     body: JSON.stringify({
       description,
       imageUrl,
-      token,
     }),
     headers: {
       Authorization: token,
@@ -98,19 +97,34 @@ export function postFetch ({token, description, imageUrl}){
     if  (response.status === 400){
       throw new Error  ("Плохой запрос")
     }; 
-  }).then ((responseData) => {
-    return getPosts();
-  }).catch((error) => {
-    if (error.message === "Сервер сломался" ){
-      alert ("Сервер сломался, попробуйте позже");
-      return;
-      };
-      if (error.message === "Плохой запрос" ){
-      alert ("Имя и комментарий должны быть не короче 3 символов");
-      return;
-      }; 
-      alert ("Кажется что-то пошло не так, попробуйте позже");
-      console.log (error)
-    
+  }).then ((response) => {
+    return response.json();
   })
+};
+
+export function deletePost({ id, token }) {
+  return fetch(postsHost + `/${id}`, {
+    method: "DELETE",
+    headers: {
+      Authorization: token,
+    },
+  }).then((response) => {
+    return response.json();
+  });
+}
+
+
+export function userPage({token, id}) {
+  return fetch(postsHost + `/user-posts/${id}`, {
+    method: "GET",
+    headers: {
+      Authorization: token,
+    },
+  })
+    .then((response) => {
+      return response.json();
+    })
+    .then((data) => {
+          return data.post.user;
+    });
 }
