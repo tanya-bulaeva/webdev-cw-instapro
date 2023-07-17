@@ -1,9 +1,8 @@
-import { postFetch } from "../api.js";
 import { renderHeaderComponent } from "./header-component.js";
-
 import { renderUploadImageComponent } from "./upload-image-component.js";
 export function renderAddPostPageComponent({ appEl, onAddPostClick }) {
 let imageUrl = ""; 
+
   const renderHtml = () => {
 
     // TODO: Реализовать страницу добавления поста
@@ -18,35 +17,49 @@ let imageUrl = "";
 
     <label class = "image-description"> Опишите фотографию:</label>
     
-     <textarea rows = 4" class = "textarea"> </textarea>
+    <div class="form-error"></div>              
+
+     <textarea rows = "4" class = "textarea" id ="textarea"> </textarea>
       <button class="button add-button" id="add-button">Добавить</button>
             </div>
          </div>
   `;
 
     appEl.innerHTML = appHtml;
+    
+   const setError = (message) => {
+      appEl.querySelector(".form-error").textContent = message;
+    };
 
     renderHeaderComponent({
       element: document.querySelector(".header-container"),
     });
 
-  
-   
-
-    renderUploadImageComponent({
+     renderUploadImageComponent({
       element: appEl.querySelector(".upload-image-container"),
       onImageUrlChange(newImageUrl) {
         imageUrl = newImageUrl;
       },
     });
 
-    const imageDescription = document.querySelector('.textarea');
+     const imageDescription = document.getElementById('textarea');
+  //    const imageDescriptionValue = imageDescription.value;
 
     document.getElementById("add-button").addEventListener("click", () => {
-    if (!imageUrl) {
-        alert("Не выбрана фотография");
-        return;
-      } 
+     setError('');
+     imageDescription.classList.remove("form-error");
+     if (!imageDescription.value) {
+      imageDescription.classList.add("form-error");
+      console.log (2)
+  //    alert("Нет описания фотографии");
+      return;
+    }
+ 
+ //  if (!imageUrl) {
+ //       alert("Не выбрана фотография");
+ //       return;
+ //     };
+
 onAddPostClick({
         description: imageDescription.value
         .replaceAll("&", "&amp;")
@@ -55,7 +68,6 @@ onAddPostClick({
         .replaceAll('"', "&quot;"),
         imageUrl,
       });
-
     });
 
   };

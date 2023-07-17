@@ -3,16 +3,21 @@ import { renderHeaderComponent } from "./header-component.js";
 import { posts, user, goToPage } from "../index.js";
 import { deletePost } from "../api.js";
 import { getToken } from "../index.js"; 
-//import { user } from "../index.js";
-//import { deletePost } from "../api.js";
+
+
+
+
+
 export function renderPostsPageComponent({ appEl }) {
   // TODO: реализовать рендер постов из api+
-  //сисправить время создания
+  //исправить время создания
+
+    /**
+   * TODO: чтобы отформатировать дату создания поста в виде "19 минут назад"
+   * можно использовать https://date-fns.org/v2.29.3/docs/formatDistanceToNow
+   */
   console.log("Актуальный список постов:", posts);
-
-
- const renderHtml = () => {
-  const postHtml =  posts.map((post, index) => {
+ let postHtml =  posts.map((post, index) => {
     return `
                                <li class="post">
                     <div class="post-header" data-user-id="${post.user.id}">
@@ -53,9 +58,13 @@ export function renderPostsPageComponent({ appEl }) {
 
   appEl.innerHTML = appHtml;
 
+
   renderHeaderComponent({
     element: document.querySelector(".header-container"),
   });
+
+
+
 
   if (document.querySelectorAll(".post-delete")) {
     for (const deleteElement of document.querySelectorAll(".post-delete")) {
@@ -63,20 +72,15 @@ export function renderPostsPageComponent({ appEl }) {
         deleteElement.disabled = true;
         deletePost({ token: getToken(), id: deleteElement.dataset.id })
           .then(() => {
+            alert(`Пост удален!`)
             goToPage(POSTS_PAGE);
           })
       })
     }
   }
 
-}
-  /**
-   * TODO: чтобы отформатировать дату создания поста в виде "19 минут назад"
-   * можно использовать https://date-fns.org/v2.29.3/docs/formatDistanceToNow
-   */
- 
 
-  for (let userEl of document.querySelectorAll(".post-header")) {
+    for (let userEl of document.querySelectorAll(".post-header")) {
     userEl.addEventListener("click", () => {
       goToPage(USER_POSTS_PAGE, {
         userId: userEl.dataset.userId,
@@ -84,19 +88,7 @@ export function renderPostsPageComponent({ appEl }) {
     });
   }
 
-  if (document.querySelectorAll(".post-delete")) {
-    for (const deleteElement of document.querySelectorAll(".post-delete")) {
-      deleteElement.addEventListener("click", () => {
-        deleteElement.disabled = true;
-        deletePost({ token: getToken(), id: deleteElement.dataset.id })
-          .then(() => {
-            goToPage(POSTS_PAGE);
-          })
-      })
-    }
   }
 
 
-renderHtml();  
-}
 

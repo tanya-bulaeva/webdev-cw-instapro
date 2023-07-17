@@ -89,16 +89,9 @@ export function postFetch ({token, description, imageUrl}){
   if (response.status === 201){
     return response.json();
     };
-
-    if (response.status === 500){
-      throw new Error ("Сервер сломался");
-    };
-
-    if  (response.status === 400){
-      throw new Error  ("Плохой запрос")
-    }; 
-  }).then ((response) => {
-    return response.json();
+    if (response.status === 400){
+   throw new Error ("Добавьте описание или фотографию")
+      };
   })
 };
 
@@ -115,7 +108,7 @@ export function deletePost({ id, token }) {
 
 
 export function userPage({token, id}) {
-  return fetch(postsHost + `/user-posts/${id}`, {
+  return fetch(postsHost +  `/user-posts/${id}`, {
     method: "GET",
     headers: {
       Authorization: token,
@@ -125,6 +118,7 @@ export function userPage({token, id}) {
       return response.json();
     })
     .then((data) => {
-          return data.post.user;
+          return data.posts;
     });
 }
+
