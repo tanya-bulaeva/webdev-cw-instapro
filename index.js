@@ -1,4 +1,4 @@
-import { getPosts, postFetch, userPage } from "./api.js";
+import {  getDislike, getPosts, postFetch, getLike, userPage } from "./api.js";
 import { renderAddPostPageComponent } from "./components/add-post-page-component.js";
 import { renderAuthPageComponent } from "./components/auth-page-component.js";
 import {
@@ -15,8 +15,7 @@ import {
   removeUserFromLocalStorage,
   saveUserToLocalStorage,
 } from "./helpers.js";
-import { renderUserPageComponent } from "./components/user-post-components.js";
-
+import { renderUserPageComponent } from "./components/user-post-components.js"; 
 export let user = getUserFromLocalStorage();
 export let page = null;
 export let posts = [];
@@ -32,6 +31,19 @@ export const logout = () => {
   goToPage(POSTS_PAGE);
 };
 
+export function getAPI() {
+  return getPosts({ token: getToken() })
+    .then((newPosts) => {
+      posts = newPosts;
+      renderApp();
+    })
+    .catch((error) => {
+      console.error(error);
+      goToPage(POSTS_PAGE);
+    });
+  }
+
+ 
 /**
  * Включает страницу приложения
  */
@@ -71,6 +83,8 @@ export const goToPage = (newPage, data) => {
       // TODO: реализовать получение постов юзера из API
      
       console.log("Открываю страницу пользователя: ", data.userId);
+      page = LOADING_PAGE;
+      
       let id = data.userId;
       return userPage({id, token: getToken()}).then((data) => {
        page = USER_POSTS_PAGE;
@@ -89,7 +103,7 @@ export const goToPage = (newPage, data) => {
   throw new Error("страницы не существует");
 };
 
-const renderApp = () => {
+export const renderApp = () => {
   const appEl = document.getElementById("app");
   if (page === LOADING_PAGE) {
     return renderLoadingPageComponent({
@@ -133,6 +147,7 @@ const renderApp = () => {
 
   if (page === USER_POSTS_PAGE) {
     // TODO: реализовать страницу фотографию пользвателя
+
     return  renderUserPageComponent({appEl, token: getToken(), user: getUserFromLocalStorage()});
 
  
@@ -142,3 +157,30 @@ const renderApp = () => {
 };
 
 goToPage(POSTS_PAGE);
+
+export function putLikes( id ) {
+
+    getLike( id, { token: getToken() })
+    .then(() => {
+      getAPI();
+    })
+    .catch((error) => {
+      alert(error.message);
+      goToPage(AUTH_PAGE);
+    });
+  
+};
+
+export function removeLikes( id ) {
+
+    getDislike(id, { token: getToken() })
+    .then(() => {
+      getAPI();
+    })
+    .catch((error) => {
+      alert(error.message);
+      goToPage(AUTH_PAGE);
+    });
+
+};
+

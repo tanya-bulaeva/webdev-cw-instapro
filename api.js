@@ -122,3 +122,24 @@ export function userPage({token, id}) {
     });
 }
 
+export function getLike(id, {token}){
+  return fetch(postsHost + `/${id}/like`, {
+    method: "POST",
+    headers: {
+      Authorization: token,
+    },
+  }).then ((response) => {
+    return response.json();
+  })
+}
+ export function getDislike(id, {token}){
+  return fetch(postsHost + `/${id}/dislike`, {
+    method: "POST",
+    headers: {
+      Authorization: token,
+    },
+  }).then ((response) => {
+    return response.json();
+  })
+}
+

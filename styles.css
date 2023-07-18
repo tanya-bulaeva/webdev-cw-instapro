@@ -222,7 +222,7 @@
 .add-button{
 width: 100%;
 }
-.textarea {
+.add-text {
   width: 100%;
   background-color: #e8e8e8;
   border: none;
@@ -232,4 +232,7 @@ padding: 10px;
 }
 .add-image{
   width: 100%;
+}
+.error{
+  background-color: red
 }

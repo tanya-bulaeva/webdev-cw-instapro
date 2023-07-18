@@ -1,10 +1,32 @@
 import { USER_POSTS_PAGE, POSTS_PAGE } from "../routes.js";
 import { renderHeaderComponent } from "./header-component.js";
-import { posts, user, goToPage } from "../index.js";
-import { deletePost } from "../api.js";
+import { posts, user, goToPage, putLikes, removeLikes, getAPI, renderApp} from "../index.js";
+import {  deletePost} from "../api.js";
 import { getToken } from "../index.js"; 
+//import { userPosts } from "../index.js";
 
+export function likeCommentButton() {    
+  const likesButton = document.querySelectorAll('.like-button');
+ for (const like of likesButton) {
 
+    like.addEventListener("click", () => {
+      let id = like.dataset.id;
+      let liked = like.dataset.liked;
+    if (!getToken()) {
+      alert (`Поставить лайк могут только авторизованные пользователи`);
+    }
+
+      if (getToken()) {
+        if  (liked == 'false'){
+          putLikes(id);
+           getAPI();
+        } else {
+          removeLikes(id);
+          getAPI();
+        }
+      }
+ })
+ }}
 
 
 
@@ -17,7 +39,7 @@ export function renderPostsPageComponent({ appEl }) {
    * можно использовать https://date-fns.org/v2.29.3/docs/formatDistanceToNow
    */
   console.log("Актуальный список постов:", posts);
- let postHtml =  posts.map((post, index) => {
+ let postHtml =  posts.map((post) => {
     return `
                                <li class="post">
                     <div class="post-header" data-user-id="${post.user.id}">
@@ -28,11 +50,13 @@ export function renderPostsPageComponent({ appEl }) {
                       <img class="post-image" src="${post.imageUrl}">
                     </div>
                     <div class="post-likes">
-                      <button data-index = '${index}' data-post-id="${post.likes}" class="like-button">
+                      <button  data-id ="${post.id}" data-liked="${post.isLiked}"    class="like-button">
                       ${post.isLiked ? `<img src="./assets/images/like-active.svg">` : `<img src="./assets/images/like-not-active.svg">`}  
                       </button>
-                      <p class="post-likes-text">
-                        Нравится: <strong>${post.likes.length}</strong>
+                      <p class="post-likes-text"> Нравится:
+                      ${post.likes.length === 0 ? 0 : post.likes.length === 1 ? post.likes[0].name
+                        : post.likes[(post.likes.length - 1)].name + ' и еще ' + (post.likes.length - 1)}  
+                    
                       </p>
                     </div>
                     <p class="post-text">
@@ -43,7 +67,7 @@ export function renderPostsPageComponent({ appEl }) {
                     ${post.createdAt}
                   </p>
             
-        ${user ? `${post.user.login === user.login ? `<button data-id="${post.id}" class="post-delete">Удалить  пост</button>` : ""}` : ""}
+        ${user ? `${post.user.login === user.login ? `<button data-id="${post.id}" class="delete-button button">Удалить  пост</button>` : ""}` : ""}
                   </li>`;
   }).join('');
 
@@ -57,17 +81,18 @@ export function renderPostsPageComponent({ appEl }) {
           </div>`;
 
   appEl.innerHTML = appHtml;
+  
+
 
 
   renderHeaderComponent({
     element: document.querySelector(".header-container"),
   });
+ 
 
-
-
-
-  if (document.querySelectorAll(".post-delete")) {
-    for (const deleteElement of document.querySelectorAll(".post-delete")) {
+likeCommentButton();
+  if (document.querySelectorAll(".delete-button")) {
+    for (const deleteElement of document.querySelectorAll(".delete-button")) {
       deleteElement.addEventListener("click", () => {
         deleteElement.disabled = true;
         deletePost({ token: getToken(), id: deleteElement.dataset.id })
@@ -87,8 +112,4 @@ export function renderPostsPageComponent({ appEl }) {
       });
     });
   }
-
-  }
-
-
-
+}

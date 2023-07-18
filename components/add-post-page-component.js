@@ -5,7 +5,7 @@ let imageUrl = "";
 
   const renderHtml = () => {
 
-    // TODO: Реализовать страницу добавления поста
+    // TODO: Реализовать страницу добавления поста+
     const appHtml = `
     <div class="page-container ">
       <div class="header-container"> </div>
@@ -19,17 +19,13 @@ let imageUrl = "";
     
     <div class="form-error"></div>              
 
-     <textarea rows = "4" class = "textarea" id ="textarea"> </textarea>
+     <textarea rows = "4" class = "add-text textarea" id ="textarea"> </textarea>
       <button class="button add-button" id="add-button">Добавить</button>
             </div>
          </div>
   `;
 
     appEl.innerHTML = appHtml;
-    
-   const setError = (message) => {
-      appEl.querySelector(".form-error").textContent = message;
-    };
 
     renderHeaderComponent({
       element: document.querySelector(".header-container"),
@@ -42,26 +38,25 @@ let imageUrl = "";
       },
     });
 
-     const imageDescription = document.getElementById('textarea');
-  //    const imageDescriptionValue = imageDescription.value;
 
-    document.getElementById("add-button").addEventListener("click", () => {
-     setError('');
-     imageDescription.classList.remove("form-error");
-     if (!imageDescription.value) {
-      imageDescription.classList.add("form-error");
-      console.log (2)
-  //    alert("Нет описания фотографии");
-      return;
-    }
  
- //  if (!imageUrl) {
- //       alert("Не выбрана фотография");
- //       return;
- //     };
+    document.getElementById("add-button").addEventListener("click", () => {
+     setError("");
+     let imageDescription = document.getElementById("textarea").value;
+   
+        if (!imageUrl) {
+      alert("Не выбрана фотография");
+      return ;
+    };
+
+     if (!imageDescription) {
+
+         alert("Нет описания фотографии");
+      return;
+    };
 
 onAddPostClick({
-        description: imageDescription.value
+        description: imageDescription
         .replaceAll("&", "&amp;")
         .replaceAll("<", "&lt;")
         .replaceAll(">", "&gt;")

@@ -5,7 +5,10 @@ import { deletePost } from "../api.js";
 import { getToken } from "../index.js";   
 import { goToPage } from "../index.js";
 import { POSTS_PAGE } from "../routes.js";
+import { likeCommentButton } from "./posts-page-component.js";
 
+
+  
    export function renderUserPageComponent({ appEl, user }) {
         // TODO: реализовать рендер постов из api+
         //исправить время создания
@@ -23,11 +26,13 @@ import { POSTS_PAGE } from "../routes.js";
                             <img class="post-image" src="${post.imageUrl}">
                           </div>
                           <div class="post-likes">
-                            <button data-post-id="${post.likes}" class="like-button">
-                            ${post.isLiked ? `<img src="./assets/images/like-active.svg">` : `<img src="./assets/images/like-not-active.svg">`}  
-                            </button>
+                          <button  data-id ="${post.id}" data-liked="${post.isLiked}"    class="like-button">
+                          ${post.isLiked ? `<img src="./assets/images/like-active.svg">` : `<img src="./assets/images/like-not-active.svg">`}  
+                          </button>
                             <p class="post-likes-text">
-                              Нравится: <strong>${post.likes.length}</strong>
+                            <p class="post-likes-text"> Нравится:
+                            ${post.likes.length === 0 ? 0 : post.likes.length === 1 ? post.likes[0].name
+                              : post.likes[(post.likes.length - 1)].name + ' и еще ' + (post.likes.length - 1)} 
                             </p>
                           </div>
                           <p class="post-text">
@@ -38,7 +43,7 @@ import { POSTS_PAGE } from "../routes.js";
                           ${post.createdAt}
                         </p>
                   
-              ${user ? `${post.user.login === user.login ? `<button data-id="${post.id}" class="post-delete">Удалить  пост</button>` : ""}` : ""}
+              ${user ? `${post.user.login === user.login ? `<button data-id="${post.id}" class="delete-button button">Удалить  пост</button>` : ""}` : ""}
                         </li>`;
         }).join('');
       
@@ -59,18 +64,20 @@ import { POSTS_PAGE } from "../routes.js";
                 </div>`;
       
         appEl.innerHTML = appHtml;
-      
+
+
+
         renderHeaderComponent({
           element: document.querySelector(".header-container"),
         });
-
-
-        if (document.querySelectorAll(".post-delete")) {
-          for (const deleteElement of document.querySelectorAll(".post-delete")) {
+    
+        if (document.querySelectorAll(".delete-button")) {
+          for (const deleteElement of document.querySelectorAll(".delete-button")) {
             deleteElement.addEventListener("click", () => {
               deleteElement.disabled = true;
               deletePost({ token: getToken(), id: deleteElement.dataset.id })
                 .then(() => {
+                    alert ("Пост удален!")
                   goToPage(POSTS_PAGE);
                 })
             })
@@ -83,4 +90,5 @@ import { POSTS_PAGE } from "../routes.js";
               });
             });
           }
+likeCommentButton();
     }
