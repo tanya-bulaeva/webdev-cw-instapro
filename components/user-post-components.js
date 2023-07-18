@@ -7,19 +7,20 @@ import { goToPage } from "../index.js";
 import { POSTS_PAGE } from "../routes.js";
 import { likeCommentButton } from "./posts-page-component.js";
 
-
+import { formatDistanceToNow } from "date-fns";
+import { ru } from "date-fns/locale";
   
    export function renderUserPageComponent({ appEl, user }) {
         // TODO: реализовать рендер постов из api+
-        //исправить время создания
            /**
          * TODO: чтобы отформатировать дату создания поста в виде "19 минут назад"
          * можно использовать https://date-fns.org/v2.29.3/docs/formatDistanceToNow
     */
  
         console.log("Актуальный список постов пользователя:", userPosts);
-
+        const country = "ru";
            const userPostsHtml =  userPosts.map((post) => {
+
           return `
                                      <li class="post">
                            <div class="post-image-container">
@@ -40,10 +41,11 @@ import { likeCommentButton } from "./posts-page-component.js";
                            ${post.description}
                           </p>
                           <p class="post-date">
-                          ${post.createdAt}
+                          ${formatDistanceToNow(new Date(post.createdAt), { locale: ru })} назад
+                         
                         </p>
                   
-              ${user ? `${post.user.login === user.login ? `<button data-id="${post.id}" class="delete-button button">Удалить  пост</button>` : ""}` : ""}
+              ${user ? `${post.user.login === user.login ? `<button data-id="${post.id}" class="delete-button ">Удалить  пост</button>` : ""}` : ""}
                         </li>`;
         }).join('');
       

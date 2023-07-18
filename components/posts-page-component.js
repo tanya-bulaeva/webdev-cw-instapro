@@ -3,8 +3,9 @@ import { renderHeaderComponent } from "./header-component.js";
 import { posts, user, goToPage, putLikes, removeLikes, getAPI, renderApp} from "../index.js";
 import {  deletePost} from "../api.js";
 import { getToken } from "../index.js"; 
-//import { userPosts } from "../index.js";
 
+import { formatDistanceToNow } from "date-fns";
+import { ru } from "date-fns/locale";
 export function likeCommentButton() {    
   const likesButton = document.querySelectorAll('.like-button');
  for (const like of likesButton) {
@@ -19,11 +20,12 @@ export function likeCommentButton() {
       if (getToken()) {
         if  (liked == 'false'){
           putLikes(id);
-           getAPI();
+          
         } else {
           removeLikes(id);
-          getAPI();
+          
         }
+        getAPI();
       }
  })
  }}
@@ -31,8 +33,8 @@ export function likeCommentButton() {
 
 
 export function renderPostsPageComponent({ appEl }) {
-  // TODO: реализовать рендер постов из api+
-  //исправить время создания
+  // TODO: реализовать рендер постов из api
+
 
     /**
    * TODO: чтобы отформатировать дату создания поста в виде "19 минут назад"
@@ -64,10 +66,11 @@ export function renderPostsPageComponent({ appEl }) {
                      ${post.description}
                     </p>
                     <p class="post-date">
-                    ${post.createdAt}
+                    ${formatDistanceToNow(new Date(post.createdAt), { locale: ru })} назад
+                   
                   </p>
             
-        ${user ? `${post.user.login === user.login ? `<button data-id="${post.id}" class="delete-button button">Удалить  пост</button>` : ""}` : ""}
+        ${user ? `${post.user.login === user.login ? `<button data-id="${post.id}" class="delete-button">Удалить  пост</button>` : ""}` : ""}
                   </li>`;
   }).join('');
 
@@ -90,7 +93,7 @@ export function renderPostsPageComponent({ appEl }) {
   });
  
 
-likeCommentButton();
+likeCommentButton(POSTS_PAGE);
   if (document.querySelectorAll(".delete-button")) {
     for (const deleteElement of document.querySelectorAll(".delete-button")) {
       deleteElement.addEventListener("click", () => {

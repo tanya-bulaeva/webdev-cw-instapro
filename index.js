@@ -16,6 +16,7 @@ import {
   saveUserToLocalStorage,
 } from "./helpers.js";
 import { renderUserPageComponent } from "./components/user-post-components.js"; 
+import { format } from "date-fns";
 export let user = getUserFromLocalStorage();
 export let page = null;
 export let posts = [];
@@ -34,6 +35,7 @@ export const logout = () => {
 export function getAPI() {
   return getPosts({ token: getToken() })
     .then((newPosts) => {
+      page = POSTS_PAGE;
       posts = newPosts;
       renderApp();
     })

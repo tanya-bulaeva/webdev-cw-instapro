@@ -41,7 +41,7 @@ let imageUrl = "";
 
  
     document.getElementById("add-button").addEventListener("click", () => {
-     setError("");
+
      let imageDescription = document.getElementById("textarea").value;
    
         if (!imageUrl) {
