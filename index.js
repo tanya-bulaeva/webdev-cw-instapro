@@ -61,6 +61,7 @@ export const goToPage = (newPage, data) => {
           page = POSTS_PAGE;
           posts = newPosts;
           renderApp();
+          
         })
         .catch((error) => {
           console.error(error);
@@ -120,9 +121,12 @@ export const renderApp = () => {
       appEl,
       onAddPostClick({ description, imageUrl }) {
         // TODO: реализовать добавление поста в API+
-        postFetch({description, imageUrl, token: getToken()})
+    
         console.log("Добавляю пост...", { description, imageUrl });
-        goToPage(POSTS_PAGE);
+          postFetch({description, imageUrl, token: getToken()}).then (() => {
+           goToPage(POSTS_PAGE);  
+          })
+       
       },
     });
   }

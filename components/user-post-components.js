@@ -55,13 +55,15 @@ import { likeCommentButton } from "./posts-page-component.js";
       
               const appHtml = `<div class="page-container">
               <div class="header-container"></div>
-                   <div>  <img src = '${userImage}' class="post-header__user-image">
+                   <div class = 'post-header'>
+                  
+                    <img src = '${userImage}' class="post-header__user-image">
                     <p class="post-header__user-name"> ${userName}
-                    </p>
+                    </p></div>
                     <ul class="posts posts-user">
                     ${userPostsHtml}
                     </ul>
-                    </div>
+                    
                 </div>`;
       
         appEl.innerHTML = appHtml;
