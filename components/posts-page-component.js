@@ -4,9 +4,9 @@ import { posts, user, goToPage} from "../index.js";
 import {  deletePost, getDislike, getLike} from "../api.js";
 import { getToken } from "../index.js"; 
 
-//import { formatDistanceToNow } from "date-fns";
-//import { ru } from "date-fns/locale";
-//${formatDistanceToNow(new Date(post.createdAt), { locale: ru })} назад
+import { formatDistanceToNow } from "date-fns";
+import { ru } from "date-fns/locale";
+
 
 
 export function likeCommentButton(token, page, data) {
@@ -77,16 +77,16 @@ export function renderPostsPageComponent({ appEl, token }) {
                       <p class="post-likes-text"> Нравится:
                       ${post.likes.length === 0 ? 0 : post.likes.length === 1 ? post.likes[0].name
                         : post.likes[(post.likes.length - 1)].name + ' и еще ' + (post.likes.length - 1)}  
-                        ${post.createdAt}
+                       
                       </p>
                     </div>
                     <p class="post-text">
-                     <span class="user-name"> <span class="user-name">${post.user.name}</span>
-                     ${post.description}
+                     <span class="user-name"> ${post.user.name}</span>
+                    ${post.description}
                     </p>
                     <p class="post-date">
 
-                   
+                    ${formatDistanceToNow(new Date(post.createdAt), { locale: ru })} назад
                   </p>
             
         ${user ? `${post.user.login === user.login ? `<button data-id="${post.id}" class="delete-button">Удалить  пост</button>` : ""}` : ""}

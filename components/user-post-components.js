@@ -7,9 +7,9 @@ import { goToPage } from "../index.js";
 import { POSTS_PAGE } from "../routes.js";
 import { likeCommentButton } from "./posts-page-component.js";
 
-//import { formatDistanceToNow } from "date-fns";
-//import { ru } from "date-fns/locale";
-//${formatDistanceToNow(new Date(post.createdAt), { locale: ru })} назад 
+import { formatDistanceToNow } from "date-fns";
+import { ru } from "date-fns/locale";
+
   export function renderUserPageComponent({ appEl, token, user }) {
         // TODO: реализовать рендер постов из api+
            
@@ -40,7 +40,7 @@ import { likeCommentButton } from "./posts-page-component.js";
                            ${post.description}
                           </p>
                           <p class="post-date">
-                            ${post.createdAt}
+                          ${formatDistanceToNow(new Date(post.createdAt), { locale: ru })} назад 
                          
                         </p>
                   
