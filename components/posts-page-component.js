@@ -1,38 +1,57 @@
 import { USER_POSTS_PAGE, POSTS_PAGE } from "../routes.js";
 import { renderHeaderComponent } from "./header-component.js";
-import { posts, user, goToPage, putLikes, removeLikes, getAPI, renderApp} from "../index.js";
-import {  deletePost} from "../api.js";
+import { posts, user, goToPage} from "../index.js";
+import {  deletePost, getDislike, getLike} from "../api.js";
 import { getToken } from "../index.js"; 
 
-import { formatDistanceToNow } from "date-fns";
-import { ru } from "date-fns/locale";
-export function likeCommentButton() {    
-  const likesButton = document.querySelectorAll('.like-button');
- for (const like of likesButton) {
+//import { formatDistanceToNow } from "date-fns";
+//import { ru } from "date-fns/locale";
+//${formatDistanceToNow(new Date(post.createdAt), { locale: ru })} назад
 
+
+export function likeCommentButton(token, page, data) {
+  const likeButtons  = document.querySelectorAll(".like-button");
+  for (const like of likeButtons) {
     like.addEventListener("click", () => {
       let id = like.dataset.id;
       let liked = like.dataset.liked;
-    if (!getToken()) {
-      alert (`Поставить лайк могут только авторизованные пользователи`);
-    }
+  if (!getToken()) {
+    alert (`Поставить лайк могут только авторизованные пользователи`);
+  }
+  if (getToken()){
 
-      if (getToken()) {
-        if  (liked == 'false'){
-          putLikes(id);
-          
-        } else {
-          removeLikes(id);
-          
-        }
-        getAPI();
+      if (liked == "false") {
+    
+      getLike({
+          id,
+          token
+        })
+      .then (() => {
+           goToPage(page, data);
+        }).catch((error) => {
+          alert(error.message);
+        });
+           
+        
+      } else {
+        return  getDislike({
+          id,
+          token
+        }).then (() => {
+          goToPage(page, data);
+       }).catch((error) => {
+        alert(error.message);
+      });
+   
       }
- })
- }}
 
+    
+  }
 
-
-export function renderPostsPageComponent({ appEl }) {
+    });
+  }
+}
+export function renderPostsPageComponent({ appEl, token }) {
   // TODO: реализовать рендер постов из api
 
 
@@ -58,7 +77,7 @@ export function renderPostsPageComponent({ appEl }) {
                       <p class="post-likes-text"> Нравится:
                       ${post.likes.length === 0 ? 0 : post.likes.length === 1 ? post.likes[0].name
                         : post.likes[(post.likes.length - 1)].name + ' и еще ' + (post.likes.length - 1)}  
-                    
+                        ${post.createdAt}
                       </p>
                     </div>
                     <p class="post-text">
@@ -66,7 +85,7 @@ export function renderPostsPageComponent({ appEl }) {
                      ${post.description}
                     </p>
                     <p class="post-date">
-                    ${formatDistanceToNow(new Date(post.createdAt), { locale: ru })} назад
+
                    
                   </p>
             
@@ -91,9 +110,10 @@ export function renderPostsPageComponent({ appEl }) {
   renderHeaderComponent({
     element: document.querySelector(".header-container"),
   });
- 
 
-likeCommentButton(POSTS_PAGE);
+
+
+
   if (document.querySelectorAll(".delete-button")) {
     for (const deleteElement of document.querySelectorAll(".delete-button")) {
       deleteElement.addEventListener("click", () => {
@@ -115,4 +135,8 @@ likeCommentButton(POSTS_PAGE);
       });
     });
   }
+const page = POSTS_PAGE;
+likeCommentButton(token, page);
+
 }
+

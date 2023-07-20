@@ -4,12 +4,16 @@
 //const baseHost = "https://webdev-hw-api.vercel.app";
 //
 
+
+//import { getAPI, goToPage } from "./index.js";
+//import { AUTH_PAGE } from "./routes";
+//import { userPosts } from "./index.js";
 const personalKey = ":tanya-bulaeva";
 const baseHost = "https://webdev-hw-api.vercel.app";
 const postsHost = `${baseHost}/api/v1/${personalKey}/instapro`;
 //https://wedev-api.sky.pro/api/v1/:tanya-bulaeva/instapro
 
-export function getPosts({ token }) {
+export function getPosts({ token}) {
   return fetch(postsHost, {
     method: "GET",
     headers: {
@@ -122,7 +126,7 @@ export function userPage({token, id}) {
     });
 }
 
-export function getLike(id, {token}){
+export function getLike({id, token}){
   return fetch(postsHost + `/${id}/like`, {
     method: "POST",
     headers: {
@@ -132,7 +136,7 @@ export function getLike(id, {token}){
     return response.json();
   })
 }
- export function getDislike(id, {token}){
+ export function getDislike({id, token}){
   return fetch(postsHost + `/${id}/dislike`, {
     method: "POST",
     headers: {

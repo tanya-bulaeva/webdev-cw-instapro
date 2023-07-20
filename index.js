@@ -8,7 +8,7 @@ import {
   POSTS_PAGE,
   USER_POSTS_PAGE,
 } from "./routes.js";
-import { renderPostsPageComponent } from "./components/posts-page-component.js";
+import { renderPostsPageComponent} from "./components/posts-page-component.js";
 import { renderLoadingPageComponent } from "./components/loading-page-component.js";
 import {
   getUserFromLocalStorage,
@@ -16,7 +16,7 @@ import {
   saveUserToLocalStorage,
 } from "./helpers.js";
 import { renderUserPageComponent } from "./components/user-post-components.js"; 
-import { format } from "date-fns";
+
 export let user = getUserFromLocalStorage();
 export let page = null;
 export let posts = [];
@@ -32,20 +32,7 @@ export const logout = () => {
   goToPage(POSTS_PAGE);
 };
 
-export function getAPI() {
-  return getPosts({ token: getToken() })
-    .then((newPosts) => {
-      page = POSTS_PAGE;
-      posts = newPosts;
-      renderApp();
-    })
-    .catch((error) => {
-      console.error(error);
-      goToPage(POSTS_PAGE);
-    });
-  }
 
- 
 /**
  * Включает страницу приложения
  */
@@ -66,7 +53,7 @@ export const goToPage = (newPage, data) => {
     }
 
     if (newPage === POSTS_PAGE) {
-      page = LOADING_PAGE;
+     
       renderApp();
 
       return getPosts({ token: getToken() })
@@ -150,7 +137,7 @@ export const renderApp = () => {
   if (page === USER_POSTS_PAGE) {
     // TODO: реализовать страницу фотографию пользвателя
 
-    return  renderUserPageComponent({appEl, token: getToken(), user: getUserFromLocalStorage()});
+  return  renderUserPageComponent({appEl, token: getToken(), user: getUserFromLocalStorage()});
 
  
   }
@@ -159,30 +146,4 @@ export const renderApp = () => {
 };
 
 goToPage(POSTS_PAGE);
-
-export function putLikes( id ) {
-
-    getLike( id, { token: getToken() })
-    .then(() => {
-      getAPI();
-    })
-    .catch((error) => {
-      alert(error.message);
-      goToPage(AUTH_PAGE);
-    });
-  
-};
-
-export function removeLikes( id ) {
-
-    getDislike(id, { token: getToken() })
-    .then(() => {
-      getAPI();
-    })
-    .catch((error) => {
-      alert(error.message);
-      goToPage(AUTH_PAGE);
-    });
-
-};
 

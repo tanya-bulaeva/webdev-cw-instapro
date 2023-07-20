@@ -7,21 +7,20 @@ import { goToPage } from "../index.js";
 import { POSTS_PAGE } from "../routes.js";
 import { likeCommentButton } from "./posts-page-component.js";
 
-import { formatDistanceToNow } from "date-fns";
-import { ru } from "date-fns/locale";
-  
-   export function renderUserPageComponent({ appEl, user }) {
+//import { formatDistanceToNow } from "date-fns";
+//import { ru } from "date-fns/locale";
+//${formatDistanceToNow(new Date(post.createdAt), { locale: ru })} назад 
+  export function renderUserPageComponent({ appEl, token, user }) {
         // TODO: реализовать рендер постов из api+
-           /**
-         * TODO: чтобы отформатировать дату создания поста в виде "19 минут назад"
-         * можно использовать https://date-fns.org/v2.29.3/docs/formatDistanceToNow
-    */
+           
+     //    TODO: чтобы отформатировать дату создания поста в виде "19 минут назад"
+      //   можно использовать https://date-fns.org/v2.29.3/docs/formatDistanceToNow
+  
  
         console.log("Актуальный список постов пользователя:", userPosts);
-        const country = "ru";
            const userPostsHtml =  userPosts.map((post) => {
 
-          return `
+          return ` 
                                      <li class="post">
                            <div class="post-image-container">
                             <img class="post-image" src="${post.imageUrl}">
@@ -41,7 +40,7 @@ import { ru } from "date-fns/locale";
                            ${post.description}
                           </p>
                           <p class="post-date">
-                          ${formatDistanceToNow(new Date(post.createdAt), { locale: ru })} назад
+                            ${post.createdAt}
                          
                         </p>
                   
@@ -56,7 +55,7 @@ import { ru } from "date-fns/locale";
       
               const appHtml = `<div class="page-container">
               <div class="header-container"></div>
-                    <div> <img src = '${userImage}' class="post-header__user-image">
+                   <div>  <img src = '${userImage}' class="post-header__user-image">
                     <p class="post-header__user-name"> ${userName}
                     </p>
                     <ul class="posts posts-user">
@@ -91,6 +90,16 @@ import { ru } from "date-fns/locale";
                 userId: userEl.dataset.userId,
               });
             });
-          }
-likeCommentButton();
+          };
+
+  const page = USER_POSTS_PAGE;
+  let data = {
+    userId: userPosts[0]?.user.id
+  };
+  
+  likeCommentButton(token, page, data);
+
     }
+
+
+    
