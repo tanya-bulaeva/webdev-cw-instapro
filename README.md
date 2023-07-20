@@ -4,8 +4,8 @@
 
 ## Ссылка на приложение:
 
-https::
 
+https://tanya-bulaeva.github.io/webdev-cw-instapro/
 ## Первоначальная оценка
 
 56 часов
