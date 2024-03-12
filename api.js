@@ -1,17 +1,8 @@
-// Замени на свой, чтобы получить независимый от других набор данных.
-// "боевая" версия инстапро лежит в ключе prod
-//const personalKey = "prod";
-//const baseHost = "https://webdev-hw-api.vercel.app";
-//
 
-
-//import { getAPI, goToPage } from "./index.js";
-//import { AUTH_PAGE } from "./routes";
-//import { userPosts } from "./index.js";
 const personalKey = ":tanya-bulaeva";
 const baseHost = "https://webdev-hw-api.vercel.app";
 const postsHost = `${baseHost}/api/v1/${personalKey}/instapro`;
-//https://wedev-api.sky.pro/api/v1/:tanya-bulaeva/instapro
+
 
 export function getPosts({ token}) {
   return fetch(postsHost, {

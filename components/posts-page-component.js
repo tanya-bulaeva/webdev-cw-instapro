@@ -52,13 +52,7 @@ export function likeCommentButton(token, page, data) {
   }
 }
 export function renderPostsPageComponent({ appEl, token }) {
-  // TODO: реализовать рендер постов из api
 
-
-    /**
-   * TODO: чтобы отформатировать дату создания поста в виде "19 минут назад"
-   * можно использовать https://date-fns.org/v2.29.3/docs/formatDistanceToNow
-   */
   console.log("Актуальный список постов:", posts);
  let postHtml =  posts.map((post) => {
     return `
