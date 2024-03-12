@@ -11,12 +11,7 @@ import { formatDistanceToNow } from "date-fns";
 import { ru } from "date-fns/locale";
 
   export function renderUserPageComponent({ appEl, token, user }) {
-        // TODO: реализовать рендер постов из api+
-           
-     //    TODO: чтобы отформатировать дату создания поста в виде "19 минут назад"
-      //   можно использовать https://date-fns.org/v2.29.3/docs/formatDistanceToNow
-  
- 
+    
         console.log("Актуальный список постов пользователя:", userPosts);
            const userPostsHtml =  userPosts.map((post) => {
 
