@@ -9,7 +9,7 @@
 -   REST API
 
 ## Установка и запуск проекта:
--   Необходимо клонировать репозиторий got clone git@github.com:tanya-bulaeva/webdev-cw-instapro.git
+-   Необходимо клонировать репозиторий git clone git@github.com:tanya-bulaeva/webdev-cw-instapro.git
 -   Установить зависимости: npm install;
 -   Запустить приложение: npm run start;
   
